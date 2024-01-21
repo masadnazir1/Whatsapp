@@ -7,6 +7,7 @@ import ChatScreen from './ChatScreen';
 import NotificationScreen from './NotificationScreen';
 import StatusesScreen from './StatusesScreen';
 import { useNavigation } from '@react-navigation/native';
+import SettingsScreen from './SettingsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +33,7 @@ const NotificationScreenComponent = () => (
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [isSettingsModalVisible, setSettingsModalVisible] = useState(false);
-  const [isSearchActive, setSearchActive] = useState(false); // Added state for search bar
+  const [isSearchActive, setSearchActive] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   const toggleSettingsModal = () => {
@@ -41,6 +42,9 @@ const HomeScreen = () => {
 
   const toggleSearchBar = () => {
     setSearchActive(!isSearchActive);
+    if (!isSearchActive) {
+      setSearchQuery(''); // Clear search query when activating the search bar
+    }
   };
 
   return (
@@ -51,14 +55,22 @@ const HomeScreen = () => {
         <Image source={require('../assets/Logo.png')} style={styles.logo} />
 
         {isSearchActive ? (
-          // Search Bar
-          <TextInput
-            style={styles.searchBar}
-            placeholder="Search"
-            value={searchQuery}
-            onChangeText={(text) => setSearchQuery(text)}
-          />
+          // Search Bar with Close Button
+          <View style={styles.searchContainer}>
+            <TextInput
+              style={styles.searchBar}
+              placeholder="Search"
+              value={searchQuery}
+              onChangeText={(text) => setSearchQuery(text)}
+            />
+            <TouchableOpacity onPress={toggleSearchBar}>
+              <FontAwesome name="close" size={24} color="#000000" style={styles.closeIcon} />
+            </TouchableOpacity>
+          </View>
         ) : (
+
+
+
           // Regular Icons
           <View style={styles.icons}>
             <TouchableOpacity onPress={toggleSearchBar}>
@@ -79,12 +91,29 @@ const HomeScreen = () => {
         onRequestClose={toggleSettingsModal}
       >
         <View style={styles.modalContainer}>
+        
+
+
+
           <View style={styles.modalContent}>
-            <Text>Settings Content Goes Here</Text>
+          <Image source={require('../assets/Logo.png')} style={styles.modelimg} />
+
+              <SettingsScreen></SettingsScreen>
+
+             <TouchableOpacity style={styles.modebtn}>
             <Button title="Close" onPress={toggleSettingsModal} />
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
+
+
+
+
+
+
+
+
 
       {/* Bottom Tab Navigator */}
       <Tab.Navigator
@@ -140,11 +169,24 @@ const styles = StyleSheet.create({
     marginLeft: '45%',
     color: '#000000',
   },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 16,
+    width: '65%',
+    borderStyle: 'solid',
+    borderWidth: 1,
+  },
   searchBar: {
     flex: 1,
-    height: 40,
-    marginLeft: 16,
+    height: 30,
     fontSize: 16,
+    width: 20,
+  },
+  closeIcon: {
+    marginLeft: 10,
+   fontSize: 20,
+   marginRight: 5,
   },
   logo: {
     width: '20%',
@@ -161,13 +203,59 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    marginBottom: 40,
+    paddingBottom: -50,
   },
   modalContent: {
     backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
+    paddingBottom: 1,
+    paddingTop: 10,
+    paddingLeft: 60,
+    paddingRight: 60,
+    borderRadius: 1,
     alignItems: 'center',
+    margin: 30,
   },
+
+  modelclose: {
+
+   marginTop: -50,
+   marginBottom : 30,
+
+
+
+
+
+
+
+
+  },
+
+
+
+
+  modebtn:{
+
+          marginBottom: 30,
+          marginTop: -40,
+
+
+  },
+
+
+
+  modelimg: {
+
+
+       width: 100,
+       height: 30,
+
+
+
+  },
+
+
+
 });
 
 export default HomeScreen;
