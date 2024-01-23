@@ -3,19 +3,60 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, Button, TextInput } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons'; // You can choose different icon libraries
+import { createStackNavigator } from '@react-navigation/stack';
 import ChatScreen from './ChatScreen';
 import NotificationScreen from './NotificationScreen';
 import StatusesScreen from './StatusesScreen';
 import { useNavigation } from '@react-navigation/native';
 import SettingsScreen from './SettingsScreen';
+import ChatDetailScreen from './ChatDetailScreen';
 
 const Tab = createBottomTabNavigator();
+// const Stack = createStackNavigator();
+const Stack = createStackNavigator();
+
+
+
 
 const ChatsScreen = () => (
-  <View style={{ flex: 1 }}>
-    <ChatScreen />
-  </View>
+  <Stack.Navigator
+  
+  
+  screenOptions={{
+
+    headerShown: false,
+
+
+    headerStyle: {
+      backgroundColor: 'blue', // Set the background color of the header
+      height: 30, // Set the height of the header
+    },
+    headerTintColor: 'white', // Set the text color of the header
+    headerTitleStyle: {
+      fontWeight: 'bold', // Set the font weight of the header title
+    },
+  }}
+  
+  
+  
+  >
+    <Stack.Screen
+      name="ChatsList"
+      component={ChatScreen}
+      options={{ headerTitle: '' }} // Hide header title for ChatList
+    />
+    <Stack.Screen
+      name="ChatDetail"
+      component={ChatDetailScreen}
+      options={{ headerTitle: null }} // Hide header title for ChatDetail
+    />
+  </Stack.Navigator>
 );
+
+
+
+
+
 
 const UpdateScreen = () => (
   <View style={{ flex: 1 }}>
@@ -32,6 +73,17 @@ const NotificationScreenComponent = () => (
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+
+
+  const handleChatPress = () => {
+    // Navigate to the ChatDetail screen with a sample chatId and chatName
+    navigation.navigate('ChatDetail', { chatId: '1', chatName: 'John Doe' });
+  };
+
+
+
+
+
   const [isSettingsModalVisible, setSettingsModalVisible] = useState(false);
   const [isSearchActive, setSearchActive] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -46,6 +98,21 @@ const HomeScreen = () => {
       setSearchQuery(''); // Clear search query when activating the search bar
     }
   };
+
+
+
+  // const handlsChatPress = () => {
+  //   // Navigate to the ChatDetail screen with a sample chatId and chatName
+  //   navigation.navigate('ChatDetail', { chatId: '1', chatName: 'John Doe' });
+  // };
+
+
+
+
+
+
+
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -106,6 +173,30 @@ const HomeScreen = () => {
           </View>
         </View>
       </Modal>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {/* Sample TouchableOpacity to simulate pressing a chat item */}
+  <TouchableOpacity style={styles.sampleChatItem} onPress={handleChatPress}>
+       
+      </TouchableOpacity>
+
+
+
+
+
+
 
 
 

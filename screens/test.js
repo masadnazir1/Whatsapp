@@ -1,19 +1,31 @@
 // HomeScreen.js
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, Button } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialIcons, FontAwesome } from '@expo/vector-icons'; // You can choose different icon libraries
+import { createStackNavigator } from '@react-navigation/stack';
+import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import ChatScreen from './ChatScreen';
 import NotificationScreen from './NotificationScreen';
 import StatusesScreen from './StatusesScreen';
 import { useNavigation } from '@react-navigation/native';
+import ChatDetailScreen from './ChatDetailScreen'; // Import ChatDetailScreen
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 const ChatsScreen = () => (
-  <View style={{ flex: 1 }}>
-    <ChatScreen />
-  </View>
+  <Stack.Navigator>
+    <Stack.Screen
+      name="ChatsList"
+      component={ChatScreen}
+      options={{ headerTitle: '' }} // Hide header title for ChatList
+    />
+    <Stack.Screen
+      name="ChatDetail"
+      component={ChatDetailScreen}
+      options={{ headerTitle: '' }} // Hide header title for ChatDetail
+    />
+  </Stack.Navigator>
 );
 
 const UpdateScreen = () => (
@@ -31,51 +43,38 @@ const NotificationScreenComponent = () => (
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const [isSettingsModalVisible, setSettingsModalVisible] = useState(false);
 
-  const toggleSettingsModal = () => {
-    setSettingsModalVisible(!isSettingsModalVisible);
+  const handleChatPress = () => {
+    // Navigate to the ChatDetail screen with a sample chatId and chatName
+    navigation.navigate('ChatDetail', { chatId: '1', chatName: 'John Doe' });
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         {/* Logo Image */}
-        <Image source={require('./path-to-your-logo/logo.png')} style={styles.logo} />
+        <Image source={require('../assets/Logo.png')} style={styles.logo} />
 
-        {/* Three dummy icons */}
-        <TouchableOpacity onPress={() => console.log('Icon 1 pressed')}>
-          <MaterialIcons name="person" size={24} color="white" style={styles.headerIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('Icon 2 pressed')}>
-          <MaterialIcons name="search" size={24} color="white" style={styles.headerIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={toggleSettingsModal}>
-          <FontAwesome name="gear" size={24} color="white" style={styles.headerIcon} />
-        </TouchableOpacity>
+        <View style={styles.icons}>
+          <TouchableOpacity onPress={() => console.log('Icon 2 pressed')}>
+            <MaterialIcons name="search" size={24} color="#000000" style={styles.headerIcon} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log('Icon 3 pressed')}>
+            <FontAwesome name="gear" size={24} color="#000000" style={styles.headerIcon} />
+          </TouchableOpacity>
+        </View>
       </View>
 
-      {/* Settings Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isSettingsModalVisible}
-        onRequestClose={toggleSettingsModal}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text>Settings Content Goes Here</Text>
-            <Button title="Close" onPress={toggleSettingsModal} />
-          </View>
-        </View>
-      </Modal>
+      {/* Sample TouchableOpacity to simulate pressing a chat item */}
+      <TouchableOpacity style={styles.sampleChatItem} onPress={handleChatPress}>
+        <Text style={styles.sampleChatItemText}>Press to Open Chat</Text>
+      </TouchableOpacity>
 
       {/* Bottom Tab Navigator */}
       <Tab.Navigator
         screenOptions={{
-          activeTintColor: '#3498db',
-          inactiveTintColor: 'gray',
+          headerShown: false,
         }}
       >
         <Tab.Screen
@@ -113,34 +112,108 @@ const HomeScreen = () => {
   );
 };
 
+
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#3498db',
+    padding: 2,
+    backgroundColor: '#99dbff',
+    marginTop: 30,
+  },
+  icons: {
+    flexDirection: 'row',
+    marginLeft: '45%',
+    color: '#000000',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 16,
+    width: '65%',
+    borderStyle: 'solid',
+    borderWidth: 1,
+  },
+  searchBar: {
+    flex: 1,
+    height: 30,
+    fontSize: 16,
+    width: 20,
+  },
+  closeIcon: {
+    marginLeft: 10,
+   fontSize: 20,
+   marginRight: 5,
   },
   logo: {
-    width: 40,
+    width: '20%',
     height: 40,
     marginRight: 16,
+    marginLeft: 16,
   },
   headerIcon: {
-    marginLeft: 16,
+    marginLeft: 20,
+    marginRight: -3,
   },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    marginBottom: 40,
+    paddingBottom: -50,
   },
   modalContent: {
     backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
+    paddingBottom: 1,
+    paddingTop: 10,
+    paddingLeft: 60,
+    paddingRight: 60,
+    borderRadius: 1,
     alignItems: 'center',
+    margin: 30,
   },
+
+  modelclose: {
+
+   marginTop: -50,
+   marginBottom : 30,
+
+
+
+
+
+
+
+
+  },
+
+
+
+
+  modebtn:{
+
+          marginBottom: 30,
+          marginTop: -40,
+
+
+  },
+
+
+
+  modelimg: {
+
+
+       width: 100,
+       height: 30,
+
+
+
+  },
+
+
+
 });
+
 
 export default HomeScreen;

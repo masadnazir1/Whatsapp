@@ -1,6 +1,8 @@
 // ChatScreen.js
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, Image } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import ChatDetailScreen from './ChatDetailScreen'; // Import the ChatDetailScreen component
 
 const dummyChats = [
   {
@@ -16,19 +18,6 @@ const dummyChats = [
     avatar: require('../assets/user.png'), // Replace with your avatar image
   },
 
-  {
-    id: '3',
-    name: 'Jane Smith',
-    message: 'Hey there!',
-    avatar: require('../assets/user.png'), // Replace with your avatar image
-  },
-
-  {
-    id: '4',
-    name: 'Jane Smith',
-    message: 'Hey there!',
-    avatar: require('../assets/user.png'), // Replace with your avatar image
-  },
 
   {
     id: '5',
@@ -38,12 +27,7 @@ const dummyChats = [
   },
 
 
-  {
-    id: '6',
-    name: 'Jane Smith',
-    message: 'Hey there!',
-    avatar: require('../assets/user.png'), // Replace with your avatar image
-  },
+
 
   {
     id: '7',
@@ -53,6 +37,7 @@ const dummyChats = [
   },
 
 
+
   {
     id: '8',
     name: 'Jane Smith',
@@ -60,8 +45,9 @@ const dummyChats = [
     avatar: require('../assets/user.png'), // Replace with your avatar image
   },
 
+
   {
-    id: '9',
+    id: '80',
     name: 'Jane Smith',
     message: 'Hey there!',
     avatar: require('../assets/user.png'), // Replace with your avatar image
@@ -69,43 +55,19 @@ const dummyChats = [
 
 
   {
-    id: '11',
+    id: '87',
     name: 'Jane Smith',
     message: 'Hey there!',
     avatar: require('../assets/user.png'), // Replace with your avatar image
   },
 
   {
-    id: '10',
+    id: '27',
     name: 'Jane Smith',
     message: 'Hey there!',
     avatar: require('../assets/user.png'), // Replace with your avatar image
   },
 
-
-  {
-    id: '14',
-    name: 'Jane Smith',
-    message: 'Hey there!',
-    avatar: require('../assets/user.png'), // Replace with your avatar image
-  },
-
-  {
-    id: '13',
-    name: 'Jane Smith',
-    message: 'Hey there!',
-    avatar: require('../assets/user.png'), // Replace with your avatar image
-  },
-
-
-
-
-  {
-    id: '15',
-    name: 'Jane Smith',
-    message: 'Hey there!',
-    avatar: require('../assets/user.png'), // Replace with your avatar image
-  },
 
   {
     id: '17',
@@ -113,18 +75,132 @@ const dummyChats = [
     message: 'Hey there!',
     avatar: require('../assets/user.png'), // Replace with your avatar image
   },
+
+
+  {
+    id: '67',
+    name: 'Jane Smith',
+    message: 'Hey there!',
+    avatar: require('../assets/user.png'), // Replace with your avatar image
+  },
+
+
+  {
+    id: '107',
+    name: 'Jane Smith',
+    message: 'Hey there!',
+    avatar: require('../assets/user.png'), // Replace with your avatar image
+  },
+
+
+  {
+    id: '37',
+    name: 'Jane Smith',
+    message: 'Hey there!',
+    avatar: require('../assets/user.png'), // Replace with your avatar image
+  },
+
+
+
+
+
+
+  {
+    id: '847',
+    name: 'Jane Smith',
+    message: 'Hey there!',
+    avatar: require('../assets/user.png'), // Replace with your avatar image
+  },
+
+
+
+  {
+    id: '837',
+    name: 'Jane Smith',
+    message: 'Hey there!',
+    avatar: require('../assets/user.png'), // Replace with your avatar image
+  },
+
+
+  {
+    id: '8427',
+    name: 'Jane Smith',
+    message: 'Hey there!',
+    avatar: require('../assets/user.png'), // Replace with your avatar image
+  },
+
+
+
+  {
+    id: '8337',
+    name: 'Jane Smith',
+    message: 'Hey there!',
+    avatar: require('../assets/user.png'), // Replace with your avatar image
+  },
+
+
+
+
+
+
+
+
+
+
+
+  {
+    id: '83357',
+    name: 'Jane Smith',
+    message: 'Hey there!',
+    avatar: require('../assets/user.png'), // Replace with your avatar image
+  },
+
+
+  {
+    id: '84427',
+    name: 'Jane Smith',
+    message: 'Hey there!',
+    avatar: require('../assets/user.png'), // Replace with your avatar image
+  },
+
+
+
+  {
+    id: '8347',
+    name: 'Jane Smith',
+    message: 'Hey there!',
+    avatar: require('../assets/user.png'), // Replace with your avatar image
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
   // Add more dummy chats as needed
 ];
 
 const ChatScreen = () => {
+  const navigation = useNavigation();
+
   const renderChatItem = ({ item }) => (
-    <View style={styles.chatItem}>
+    <TouchableOpacity
+      style={styles.chatItem}
+      onPress={() => navigation.navigate('ChatDetail', { chatId: item.id, chatName: item.name })}
+    >
       <Image source={item.avatar} style={styles.avatar} />
       <View style={styles.chatContent}>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.message}>{item.message}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -141,7 +217,6 @@ const ChatScreen = () => {
 const styles = StyleSheet.create({
   container: {
     margin: 2,
-    
     justifyContent: 'flex-start',
   },
   chatItem: {
@@ -151,7 +226,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 5,
     borderRadius: 1,
-
   },
   avatar: {
     width: 50,
